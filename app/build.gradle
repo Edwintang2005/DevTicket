@@ -45,6 +45,9 @@ run {
   // gradle run -DslackLogLevel=debug
   systemProperty "org.slf4j.simpleLogger.log.com.slack.api", System.getProperty("slackLogLevel")
 }
+stage {
+    systemProperty "org.slf4j.simpleLogger.log.com.slack.api", System.getProperty("slackLogLevel")
+}
 
 tasks.named('test') {
     // Use JUnit Platform for unit tests.
