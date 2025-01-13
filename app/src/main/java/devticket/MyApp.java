@@ -18,6 +18,10 @@ public class MyApp {
     // export SLACK_SIGNING_SECRET={signing secret}
     App app = new App();
 
+    app.command("/welcome", (req, ctx) -> {
+      return ctx.ack(res-> res.responseType("in_channel").blocks(BlockBuilder.welcomeBlock()));
+    });
+
     app.command("/ping", (req, ctx) -> {
       return ctx.ack(BlockBuilder.pingBlock());
     });
@@ -55,17 +59,13 @@ public class MyApp {
       return ctx.ack(res-> res.responseType("in_channel").text(":wave: Hi from devTicket"));
     });
 
-    app.command("/devhelp", (req, ctx) -> {
-      ctx.respond(res -> res.responseType("in_channel").blocks(BlockBuilder.helpBlock()));
+    app.command("/help", (req, ctx) -> {
+      ctx.respond(BlockBuilder.helpBlock());
       return ctx.ack();
     });
 
     app.command("/newticket", (req, ctx) -> {
       channelId = ctx.getChannelId();
-      // ctx.client().viewsOpen(r -> r
-      //   .triggerId(req.getPayload().getTriggerId())
-      // );
-      // return ctx.ack(BlockBuilder.ticketCreationBlock());
       var modalView = view(view -> view.type("modal")
       .clearOnClose(true)
       .callbackId("new_ticket_submission") // Used to identify the modal on submission
